@@ -23,7 +23,16 @@ def extract(source):
     return match_info, match_time_details, match_teams
 
 
+def process(extracted):
+    match_info = extracted[0]["match-number"]
+    match_teams = extracted[len(extracted)-1]
+    match_teams_vs = list(zip(match_teams[::2], match_teams[1::2]))
+    home_teams = match_teams[0::2]
+    away_teams = match_teams[1::2]
+    return match_info, match_teams_vs, home_teams, away_teams
+
+
 if __name__ == "__main__":
     content = scrape(URL)
     extracted = extract(content)
-    print(extracted)
+    print(process(extracted))
