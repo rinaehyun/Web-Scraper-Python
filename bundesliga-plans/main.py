@@ -18,18 +18,20 @@ def scrape(url):
 def extract(source):
     extractor = selectorlib.Extractor.from_yaml_file('match-plans.yaml')
     match_info = extractor.extract(source)["match-info"]
-    match_time_details = extractor.extract(source)["match-time-details"]
     match_teams = extractor.extract(source)["match-teams"]
-    return match_info, match_time_details, match_teams
+    return {"match-info": match_info,
+            "teams": match_teams}
 
 
 def process(extracted):
-    match_info = extracted[0]["match-number"]
-    match_teams = extracted[len(extracted)-1]
+    match_number = extracted["match-info"].partition("Saison 2023-2024")[0]
+    match_info = tuple([match_number])
+
+    match_teams = extracted["teams"]
     match_teams_vs = list(zip(match_teams[::2], match_teams[1::2]))
-    home_teams = match_teams[0::2]
-    away_teams = match_teams[1::2]
-    return match_info, match_teams_vs, home_teams, away_teams
+    values_sql = [match_info + team for team in match_teams_vs]
+
+    return values_sql
 
 
 def save_as_text(data):
