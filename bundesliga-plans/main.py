@@ -1,5 +1,5 @@
 import requests
-#import selectorlib
+import selectorlib
 
 URL = "https://www.bundesliga.com/de/bundesliga/spieltag"
 HEADERS = {
@@ -15,9 +15,15 @@ def scrape(url):
     return source
 
 
-#def extract(source):
-#    extractor = select
+def extract(source):
+    extractor = selectorlib.Extractor.from_yaml_file('match-plans.yaml')
+    match_info = extractor.extract(source)["match-info"]
+    match_time_details = extractor.extract(source)["match-time-details"]
+    match_teams = extractor.extract(source)["match-teams"]
+    return match_info, match_time_details, match_teams
 
 
 if __name__ == "__main__":
-    print(scrape(URL))
+    content = scrape(URL)
+    extracted = extract(content)
+    print(extracted)

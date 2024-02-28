@@ -1,0 +1,22 @@
+match-info:
+  type: Text
+  css: "h1"
+  children:
+    match-number:
+      css: ".display"
+    match-season:
+      css: "small"
+match-time-details:
+  css: "match-date-header.ng-star-inserted div.container"
+  multiple: true
+  type: Text
+  children:
+    match-date:
+      multiple: true
+      css: ".day"
+    match-time:
+      multiple: true
+      css: ".time"
+match-teams:
+  multiple: true
+  css: ".container .name.d-none.d-lg-block.d-xl-block"
