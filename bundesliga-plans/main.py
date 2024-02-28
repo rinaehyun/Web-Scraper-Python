@@ -1,5 +1,6 @@
 import requests
 import selectorlib
+import sqlite3
 
 URL = "https://www.bundesliga.com/de/bundesliga/spieltag"
 HEADERS = {
@@ -7,6 +8,8 @@ HEADERS = {
                   'Chrome/39.0.2171.95 Safari/537.36',
     'Content-Type': 'application/json'
 }
+
+connection = sqlite3.connect("../databases/match-data.db")
 
 def scrape(url):
     """ Scrape the page source from the URL """
@@ -40,8 +43,15 @@ def save_as_text(data):
         file.write(text)
 
 
+def store_to_sql(data):
+    cursor = connection.cursor()
+    cursor.executemany("INSERT INTO MatchInfos VALUES(?, ?, ?)", data)
+    connection.commit()
+
+
 if __name__ == "__main__":
     content = scrape(URL)
     extracted = extract(content)
     processed = process(extracted)
     save_as_text(processed)
+    store_to_sql(processed)

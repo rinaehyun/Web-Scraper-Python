@@ -1,4 +1,9 @@
-24. Spieltag Saison 2023-2024
-[('Sport-Club Freiburg', 'FC Bayern München'), ('SV Darmstadt 98', 'FC Augsburg'), ('1. FC Heidenheim 1846', 'Eintracht Frankfurt'), ('VfL Bochum 1848', 'RB Leipzig'), ('1. FSV Mainz 05', 'Borussia Mönchengladbach'), ('1. FC Union Berlin', 'Borussia Dortmund'), ('VfL Wolfsburg', 'VfB Stuttgart'), ('1. FC Köln', 'Bayer 04 Leverkusen'), ('TSG Hoffenheim', 'SV Werder Bremen')]
-['Sport-Club Freiburg', 'SV Darmstadt 98', '1. FC Heidenheim 1846', 'VfL Bochum 1848', '1. FSV Mainz 05', '1. FC Union Berlin', 'VfL Wolfsburg', '1. FC Köln', 'TSG Hoffenheim']
-['FC Bayern München', 'FC Augsburg', 'Eintracht Frankfurt', 'RB Leipzig', 'Borussia Mönchengladbach', 'Borussia Dortmund', 'VfB Stuttgart', 'Bayer 04 Leverkusen', 'SV Werder Bremen']
+('24. Spieltag ', 'Sport-Club Freiburg', 'FC Bayern München')
+('24. Spieltag ', 'SV Darmstadt 98', 'FC Augsburg')
+('24. Spieltag ', '1. FC Heidenheim 1846', 'Eintracht Frankfurt')
+('24. Spieltag ', 'VfL Bochum 1848', 'RB Leipzig')
+('24. Spieltag ', '1. FSV Mainz 05', 'Borussia Mönchengladbach')
+('24. Spieltag ', '1. FC Union Berlin', 'Borussia Dortmund')
+('24. Spieltag ', 'VfL Wolfsburg', 'VfB Stuttgart')
+('24. Spieltag ', '1. FC Köln', 'Bayer 04 Leverkusen')
+('24. Spieltag ', 'TSG Hoffenheim', 'SV Werder Bremen')
