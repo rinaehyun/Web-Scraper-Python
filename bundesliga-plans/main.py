@@ -26,11 +26,11 @@ def extract(source):
             "teams": match_teams}
 
 
-def process(extracted):
-    match_number = extracted["match-info"].partition("Saison 2023-2024")[0]
+def process(extracted_content):
+    match_number = extracted_content["match-info"].partition("Saison 2023-2024")[0].strip()
     match_info = tuple([match_number])
 
-    match_teams = extracted["teams"]
+    match_teams = extracted_content["teams"]
     match_teams_vs = list(zip(match_teams[::2], match_teams[1::2]))
     values_sql = [match_info + team for team in match_teams_vs]
 
@@ -49,9 +49,23 @@ def store_to_sql(data):
     connection.commit()
 
 
+def read_from_sql(data):
+    match_number = data["match-info"].partition("Saison 2023-2024")[0].strip()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM MatchInfos WHERE match_number=?", (match_number,))
+    row_from_sql = cursor.fetchall()
+    return row_from_sql
+
+
 if __name__ == "__main__":
     content = scrape(URL)
     extracted = extract(content)
-    processed = process(extracted)
-    save_as_text(processed)
-    store_to_sql(processed)
+
+    row = read_from_sql(extracted)
+    if len(row) == 0:
+        processed = process(extracted)
+        save_as_text(processed)
+        store_to_sql(processed)
+        print("New info about the Bundesliga matches is inserted into the database.")
+    else:
+        print("There is no update.")
