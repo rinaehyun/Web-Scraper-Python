@@ -32,7 +32,14 @@ def process(extracted):
     return match_info, match_teams_vs, home_teams, away_teams
 
 
+def save_as_text(data):
+    text = "\n".join(str(el) for el in data)
+    with open('match.txt', 'w') as file:
+        file.write(text)
+
+
 if __name__ == "__main__":
     content = scrape(URL)
     extracted = extract(content)
-    print(process(extracted))
+    processed = process(extracted)
+    save_as_text(processed)
