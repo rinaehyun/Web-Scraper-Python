@@ -41,8 +41,8 @@ class TextFile:
 
 
 class SQLDB:
-    def __init__(self):
-        self.connection = sqlite3.connect("../databases/match-data.db")
+    def __init__(self, db_path):
+        self.connection = sqlite3.connect(db_path)
 
     def store(self, data):
         cursor = self.connection.cursor()
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     content = matches.scrape(URL)
     extracted = matches.extract(content)
 
-    sql_db = SQLDB()
+    sql_db = SQLDB(db_path="../databases/match-data.db")
     records = sql_db.read(extracted)
     if len(records) == 0:
         processed = matches.process(extracted)
