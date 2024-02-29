@@ -9,8 +9,6 @@ HEADERS = {
     'Content-Type': 'application/json'
 }
 
-connection = sqlite3.connect("../databases/match-data.db")
-
 
 class MatchPlans:
     def scrape(self, url):
@@ -42,18 +40,21 @@ class TextFile:
             file.write(text)
 
 
-def store_to_sql(data):
-    cursor = connection.cursor()
-    cursor.executemany("INSERT INTO MatchInfos VALUES(?, ?, ?)", data)
-    connection.commit()
+class SQLDB:
+    def __init__(self):
+        self.connection = sqlite3.connect("../databases/match-data.db")
 
+    def store(self, data):
+        cursor = self.connection.cursor()
+        cursor.executemany("INSERT INTO MatchInfos VALUES(?, ?, ?)", data)
+        self.connection.commit()
 
-def read_from_sql(data):
-    match_number = data["match-info"].partition("Saison 2023-2024")[0].strip()
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM MatchInfos WHERE match_number=?", (match_number,))
-    records_from_sql = cursor.fetchall()
-    return records_from_sql
+    def read(self, data):
+        match_number = data["match-info"].partition("Saison 2023-2024")[0].strip()
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT * FROM MatchInfos WHERE match_number=?", (match_number,))
+        records_from_sql = cursor.fetchall()
+        return records_from_sql
 
 
 if __name__ == "__main__":
@@ -61,12 +62,13 @@ if __name__ == "__main__":
     content = matches.scrape(URL)
     extracted = matches.extract(content)
 
-    records = read_from_sql(extracted)
+    sql_db = SQLDB()
+    records = sql_db.read(extracted)
     if len(records) == 0:
         processed = matches.process(extracted)
         txt_file = TextFile()
         txt_file.save(processed)
-        store_to_sql(processed)
+        sql_db.store(processed)
         print("New info about the Bundesliga matches is inserted into the database.")
     else:
         print("There is no update.")
